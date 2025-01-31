@@ -2,7 +2,7 @@
 
 Uma aplicação de chat em tempo real construída com Node.js e WebSocket, permitindo comunicação instantânea entre múltiplos usuários.
 
-    <img src="" >
+<img src="public/img/ImgReal-timeCHAT.png">
 
 ## 🚀 Funcionalidades
 
@@ -37,7 +37,7 @@ json{
 
 1. Clone o repositório
 ```bash
-    git clone https://github.com/seu-usuario/real-time-chat.git
+    https://github.com/Vitor-DBelo/Real-Time-Chat.git
 ```
 
 2. Instale as dependências
