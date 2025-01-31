@@ -37,7 +37,7 @@ json{
 
 1. Clone o repositório
 ```bash
-    git clone https://github.com/seu-usuario/real-time-chat.git
+    https://github.com/Vitor-DBelo/Real-Time-Chat.git
 ```
 
 2. Instale as dependências
