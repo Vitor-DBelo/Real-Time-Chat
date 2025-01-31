@@ -2,7 +2,7 @@
 
 Uma aplicação de chat em tempo real construída com Node.js e WebSocket, permitindo comunicação instantânea entre múltiplos usuários.
 
-![Interface do Chat](ImgReal-timeCHAT.png)
+<img src="public/img/ImgReal-timeCHAT.png">
 
 ## 🚀 Funcionalidades
 
