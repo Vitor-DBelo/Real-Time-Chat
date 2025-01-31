@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação - Chat em Tempo Real</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        line-height: 1.6;
+        color: #333;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    h1 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        color: #34495e;
+        margin: 30px 0 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #eee;
+    }
+
+    h3 {
+        color: #7f8c8d;
+        margin: 20px 0 10px;
+    }
+
+    p {
+        margin-bottom: 15px;
+    }
+
+    .code-block {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        border-left: 4px solid #007bff;
+        margin: 15px 0;
+        overflow-x: auto;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
+
+    .comparison-table th {
+        background-color: #f8f9fa;
+    }
+
+    .method-box {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 10px 0;
+    }
+
+    .note {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 15px;
+        margin: 15px 0;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Documentação do Chat em Tempo Real</h1>
+            <p>Uma aplicação de chat utilizando WebSocket para comunicação em tempo real</p>
+        </div>
+
+        <h2>Visão Geral</h2>
+        <p>Esta aplicação implementa um chat em tempo real utilizando WebSocket para permitir comunicação bidirecional entre clientes e servidor. A aplicação é construída com Node.js no backend e JavaScript puro no frontend.</p>
+
+        <h2>Tecnologias Utilizadas</h2>
+        <ul>
+            <li>Node.js</li>
+            <li>WebSocket (ws)</li>
+            <li>JavaScript</li>
+            <li>HTML/CSS</li>
+        </ul>
+
+        <h2>WebSocket vs HTTP</h2>
+        <table class="comparison-table">
+            <tr>
+                <th>WebSocket</th>
+                <th>HTTP</th>
+            </tr>
+            <tr>
+                <td>Conexão persistente</td>
+                <td>Conexão não persistente</td>
+            </tr>
+            <tr>
+                <td>Comunicação bidirecional</td>
+                <td>Comunicação unidirecional (request-response)</td>
+            </tr>
+            <tr>
+                <td>Menor overhead</td>
+                <td>Maior overhead devido aos headers</td>
+            </tr>
+            <tr>
+                <td>Ideal para dados em tempo real</td>
+                <td>Ideal para transferências pontuais</td>
+            </tr>
+        </table>
+
+        <h2>Implementação do WebSocket</h2>
+        
+        <h3>Servidor (server.js)</h3>
+        <div class="code-block">
+            <pre>
+const wss = new WebSocketServer({ server });
+wss.on('connection', (ws) => handleWebSocketConnection(ws, wss));
+            </pre>
+        </div>
+
+        <h3>Cliente (index.htm)</h3>
+        <div class="code-block">
+            <pre>
+const socket = new WebSocket('ws://localhost:3636/');
+
+socket.onopen = () => {
+    console.log('Conexão WebSocket aberta');
+};
+
+socket.onmessage = (event) => {
+    console.log('Mensagem recebida: ', event.data);
+};
+            </pre>
+        </div>
+
+        <h2>Eventos WebSocket Importantes</h2>
+
+        <div class="method-box">
+            <h3>ws.on('connection')</h3>
+            <p>Evento disparado no servidor quando um novo cliente se conecta.</p>
+        </div>
+
+        <div class="method-box">
+            <h3>ws.on('message')</h3>
+            <p>Manipula mensagens recebidas no servidor.</p>
+        </div>
+
+        <div class="method-box">
+            <h3>socket.onopen</h3>
+            <p>Evento disparado no cliente quando a conexão é estabelecida.</p>
+        </div>
+
+        <div class="method-box">
+            <h3>socket.onmessage</h3>
+            <p>Manipula mensagens recebidas no cliente.</p>
+        </div>
+
+        <h2>Métodos Úteis</h2>
+
+        <h3>trim()</h3>
+        <p>O método trim() remove espaços em branco do início e fim de uma string. Usado para validar mensagens vazias:</p>
+        <div class="code-block">
+            <pre>
+if (message.trim()) {
+    socket.send(message);
+}
+            </pre>
+        </div>
+
+        <h3>socket.send()</h3>
+        <p>Envia dados através da conexão WebSocket:</p>
+        <div class="code-block">
+            <pre>
+socket.send(message);  // Cliente enviando mensagem
+ws.send(message);      // Servidor enviando mensagem
+            </pre>
+        </div>
+
+        <div class="note">
+            <strong>Nota:</strong> WebSocket mantém uma conexão persistente, permitindo comunicação em tempo real com baixa latência.
+            Isso é especialmente útil em aplicações como chats, jogos online e dashboards em tempo real.
+        </div>
+
+        <h2>Estrutura do Projeto</h2>
+        <pre>
+├── src/
+│   ├── server.js           # Servidor principal
+│   ├── websocket/
+│   │   └── websocket.js    # Lógica do WebSocket
+│   └── routs/
+│       └── routs.js        # Rotas HTTP
+└── public/
+    ├── index.htm          # Interface do chat
+    └── Doc.htm           # Esta documentação
+        </pre>
+
+    </div>
+</body>
+</html>

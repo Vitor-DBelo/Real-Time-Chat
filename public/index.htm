@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Chat</title>
+</head>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f8f8;
+}
+
+.chat-container {
+    width: 90%;
+    max-width: 400px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.chat-header {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.chat-box {
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+
+.chat-box ul {
+    list-style: none;
+}
+
+.message-input-container {
+    display: flex;
+    margin-top: 10px;
+}
+
+.message-input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+}
+
+.send-button {
+    padding: 8px 15px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.send-button:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 500px) {
+    .chat-container {
+        width: 95%;
+    }
+}
+</style>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">Real-time Chat</div>
+        <div id="chat-box" class="chat-box">
+            <ul id="messages"></ul>
+        </div>
+        <div class="message-input-container">
+            <input type="text" id="message-input" placeholder="Digite uma mensagem..." class="message-input">
+            <button id="send-button" class="send-button">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        // Criando a conexão WebSocket com o servidor
+        const socket = new WebSocket('ws://localhost:8080/');
+
+        socket.onopen = () => {
+            console.log('Conexão WebSocket aberta');
+        };
+        
+        // Evento disparado quando uma mensagem é recebida do servidor
+        socket.onmessage = (event) => {
+            console.log('Mensagem recebida: ', event.data);
+            const msg = document.getElementById('messages');
+            msg.innerHTML += `<li>${event.data}</li>`;
+        };
+        
+        // Evento disparado quando a conexão é fechada
+        socket.onclose = () => {
+            console.log('Conexão WebSocket fechada');
+        };
+        
+        socket.onerror = (error) => {
+            console.error('Erro no WebSocket: ', error);
+        };
+        
+        // Enviar mensagem ao clicar no botão
+        const sendButton = document.getElementById('send-button');
+        sendButton.addEventListener('click', () => {
+            const messageInput = document.getElementById('message-input');
+            const message = messageInput.value;
+        
+            if (message.trim()) {
+                socket.send(message);  // Enviar a mensagem para o servidor WebSocket
+                messageInput.value = '';  // Limpar o campo de entrada após enviar
+            }
+        });
+        
+        // Opcional: enviar a mensagem pressionando Enter
+        const messageInput = document.getElementById('message-input');
+        messageInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                sendButton.click();  // Simula o clique no botão
+            }
+        });
+</script>
+    
+</body>
+</html>
