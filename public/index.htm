@@ -95,21 +95,21 @@ body {
     </div>
 
     <script>
-        // Criando a conexão WebSocket com o servidor
+       
         const socket = new WebSocket('ws://localhost:8080/');
 
         socket.onopen = () => {
             console.log('Conexão WebSocket aberta');
         };
         
-        // Evento disparado quando uma mensagem é recebida do servidor
+       
         socket.onmessage = (event) => {
             console.log('Mensagem recebida: ', event.data);
             const msg = document.getElementById('messages');
             msg.innerHTML += `<li>${event.data}</li>`;
         };
         
-        // Evento disparado quando a conexão é fechada
+        
         socket.onclose = () => {
             console.log('Conexão WebSocket fechada');
         };
@@ -118,7 +118,7 @@ body {
             console.error('Erro no WebSocket: ', error);
         };
         
-        // Enviar mensagem ao clicar no botão
+        
         const sendButton = document.getElementById('send-button');
         sendButton.addEventListener('click', () => {
             const messageInput = document.getElementById('message-input');
@@ -130,11 +130,11 @@ body {
             }
         });
         
-        // Opcional: enviar a mensagem pressionando Enter
+        
         const messageInput = document.getElementById('message-input');
         messageInput.addEventListener('keypress', (event) => {
             if (event.key === 'Enter') {
-                sendButton.click();  // Simula o clique no botão
+                sendButton.click();  
             }
         });
 </script>
